@@ -3,7 +3,6 @@
 /* Base styles */
 @layer base {
     :root {
-        /* Terminal - 深色模式优化 */
         --terminal-bg: hsl(220 20% 8%);
         --terminal-fg: hsl(220 10% 95%);
         --terminal-border: hsl(220 15% 22%);
@@ -17,7 +16,6 @@
         --terminal-control-maximize: hsl(122 89% 47%);
     }
     .dark {
-        /* Terminal - 深色模式优化 */
         --terminal-bg: hsl(220 20% 8%);
         --terminal-fg: hsl(220 10% 95%);
         --terminal-border: hsl(220 15% 12%);
