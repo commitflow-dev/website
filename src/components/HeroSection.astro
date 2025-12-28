@@ -1,0 +1,132 @@
+---
+// Hero Section with Terminal Demo
+import TerminalDemo from "./TerminalDemo.astro";
+import { Button } from "./ui/button";
+
+const commitflowCommands = [
+    {
+        type: "input" as const,
+        content: 'commitflow --since "90 days ago" > stats.json',
+        typing: true,
+        speed: 60,
+    },
+    {
+        type: "output" as const,
+        content:
+            "✓ Generated stats.json (45.2KB)\n✓ Processed 1,234 commits from 8 contributors",
+        delay: 1000,
+    },
+    {
+        type: "input" as const,
+        content: "export OPENAI_API_KEY=sk-xxx",
+        typing: true,
+        speed: 60,
+    },
+    {
+        type: "output" as const,
+        content: "✓ API key configured for AI changelog generation",
+        delay: 300,
+    },
+    {
+        type: "input" as const,
+        content: "commitflow changelog",
+        typing: true,
+        speed: 60,
+    },
+    {
+        type: "output" as const,
+        content:
+            "✓ Generated changelog.json\n✓ Processed 12 weeks of commits\n✓ AI-powered summaries ready",
+        delay: 1500,
+    },
+    {
+        type: "input" as const,
+        content: "commitflow ui",
+        typing: true,
+        speed: 60,
+    },
+    {
+        type: "output" as const,
+        content: "✓ Launching browser...\n✓ Opening http://localhost:3008",
+        delay: 800,
+    },
+];
+---
+
+<section class="bg-background py-24 lg:py-40">
+    <div class="container max-w-6xl mx-auto px-6">
+        <div class="text-center mb-20">
+            <h1
+                class="text-5xl lg:text-7xl font-bold text-foreground mb-8 leading-tight"
+            >
+                Beautiful Analytics from
+                <span class="text-primary">Your Git Data</span>
+            </h1>
+            <p
+                class="text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12"
+            >
+                Transform commits into stunning insights and professional
+                changelogs
+            </p>
+
+            <!-- Primary CTA Button using shadcn/ui -->
+            <div>
+                <Button
+                    id="hero-cta"
+                    size="lg"
+                    class="text-base shadow-2xl hover:scale-105 transition-transform"
+                >
+                    <svg
+                        class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    Get Started in Seconds
+                </Button>
+            </div>
+        </div>
+
+        <!-- Terminal Demo -->
+        <div class="max-w-5xl mx-auto">
+            <TerminalDemo
+                commands={commitflowCommands}
+                autoPlay={true}
+                showControls={true}
+                class="mx-auto shadow-xl"
+            />
+        </div>
+    </div>
+</section>
+
+<script>
+    // Primary CTA functionality
+    document.getElementById("hero-cta")?.addEventListener("click", async () => {
+        const command = "npm install -g @commitflow/cli";
+        try {
+            await navigator.clipboard.writeText(command);
+            const btn = document.getElementById("hero-cta");
+            if (btn) {
+                const originalContent = btn.innerHTML;
+                btn.innerHTML = `
+          <svg class="w-5 h-5 mr-2 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          Command Copied!
+        `;
+
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                }, 3000);
+            }
+        } catch (err) {
+            console.error("Failed to copy:", err);
+        }
+    });
+</script>

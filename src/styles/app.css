@@ -1,0 +1,357 @@
+@import "tailwindcss";
+
+/* Base styles */
+@layer base {
+    :root {
+        /* Terminal - 深色模式优化 */
+        --terminal-bg: hsl(220 20% 8%);
+        --terminal-fg: hsl(220 10% 95%);
+        --terminal-border: hsl(220 15% 22%);
+        --terminal-cursor: hsl(217 91% 60%);
+        --terminal-prompt: hsl(217 91% 60%);
+        --terminal-output: hsl(220 10% 75%);
+        --terminal-success: hsl(142 76% 45%);
+        --terminal-accent: hsl(199 89% 48%);
+        --terminal-control-close: hsl(6 100% 68%);
+        --terminal-control-minimize: hsl(38 100% 59%);
+        --terminal-control-maximize: hsl(122 89% 47%);
+    }
+    .dark {
+        /* Terminal - 深色模式优化 */
+        --terminal-bg: hsl(220 20% 8%);
+        --terminal-fg: hsl(220 10% 95%);
+        --terminal-border: hsl(220 15% 12%);
+        --terminal-cursor: hsl(217 91% 60%);
+        --terminal-prompt: hsl(217 91% 60%);
+        --terminal-output: hsl(220 10% 75%);
+        --terminal-success: hsl(142 76% 45%);
+        --terminal-accent: hsl(199 89% 48%);
+        --terminal-control-close: hsl(6 100% 68%);
+        --terminal-control-minimize: hsl(38 100% 59%);
+        --terminal-control-maximize: hsl(122 89% 47%);
+    }
+
+    :root {
+        --background: hsl(165 49.0566% 79.2157%);
+        --foreground: hsl(146 19.4805% 30.1961%);
+        --card: hsl(162 45.4545% 82.7451%);
+        --card-foreground: hsl(146 19.4805% 30.1961%);
+        --popover: hsl(163.6364 57.8947% 88.8235%);
+        --popover-foreground: hsl(146 19.4805% 30.1961%);
+        --primary: hsl(192.3077 33.0508% 46.2745%);
+        --primary-foreground: hsl(162.8571 63.6364% 97.8431%);
+        --secondary: hsl(164.5161 48.4375% 74.902%);
+        --secondary-foreground: hsl(146 19.4805% 30.1961%);
+        --muted: hsl(164.5161 48.4375% 74.902%);
+        --muted-foreground: hsl(146.6667 11.2971% 46.8627%);
+        --accent: hsl(163.9437 49.6503% 71.9608%);
+        --accent-foreground: hsl(146 19.4805% 30.1961%);
+        --destructive: hsl(128.5714 54.491% 67.2549%);
+        --destructive-foreground: hsl(165 44.4444% 96.4706%);
+        --border: hsl(146.25 23.5294% 60%);
+        --input: hsl(163.9437 49.6503% 71.9608%);
+        --ring: hsl(212.4324 19.171% 62.1569%);
+        --chart-1: hsl(212.4324 19.171% 62.1569%);
+        --chart-2: hsl(215 15.7895% 55.2941%);
+        --chart-3: hsl(222.8571 16.2791% 74.7059%);
+        --chart-4: hsl(224.4444 11.2971% 46.8627%);
+        --chart-5: hsl(223.6364 11.1111% 38.8235%);
+        --sidebar: hsl(164.0625 52.459% 76.0784%);
+        --sidebar-foreground: hsl(146 19.4805% 30.1961%);
+        --sidebar-primary: hsl(212.4324 19.171% 62.1569%);
+        --sidebar-primary-foreground: hsl(162.8571 63.6364% 97.8431%);
+        --sidebar-accent: hsl(162.3529 28.8136% 88.4314%);
+        --sidebar-accent-foreground: hsl(146 19.4805% 30.1961%);
+        --sidebar-border: hsl(162.3529 24.6377% 86.4706%);
+        --sidebar-ring: hsl(212.4324 19.171% 62.1569%);
+        --font-sans: Merriweather, serif;
+        --font-serif: Source Serif 4, serif;
+        --font-mono: JetBrains Mono, monospace;
+        --radius: 0.425rem;
+        --shadow-x: 3px;
+        --shadow-y: 3px;
+        --shadow-blur: 2px;
+        --shadow-spread: 0px;
+        --shadow-opacity: 0.15;
+        --shadow-color: #465b6d;
+        --shadow-2xs: 3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.07);
+        --shadow-xs: 3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.07);
+        --shadow-sm:
+            3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.15),
+            3px 1px 2px -1px hsl(207.6923 21.7877% 35.098% / 0.15);
+        --shadow:
+            3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.15),
+            3px 1px 2px -1px hsl(207.6923 21.7877% 35.098% / 0.15);
+        --shadow-md:
+            3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.15),
+            3px 2px 4px -1px hsl(207.6923 21.7877% 35.098% / 0.15);
+        --shadow-lg:
+            3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.15),
+            3px 4px 6px -1px hsl(207.6923 21.7877% 35.098% / 0.15);
+        --shadow-xl:
+            3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.15),
+            3px 8px 10px -1px hsl(207.6923 21.7877% 35.098% / 0.15);
+        --shadow-2xl: 3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.38);
+        --tracking-normal: 0em;
+        --spacing: 0.25rem;
+    }
+
+    .dark {
+        --background: hsl(162.3529 17.1717% 19.4118%);
+        --foreground: hsl(158.4 40.9836% 88.0392%);
+        --card: hsl(158.5714 12.069% 22.7451%);
+        --card-foreground: hsl(158.4 40.9836% 88.0392%);
+        --popover: hsl(158.5714 12.069% 22.7451%);
+        --popover-foreground: hsl(158.4 40.9836% 88.0392%);
+        --primary: hsl(215.122 38.3178% 79.0196%);
+        --primary-foreground: hsl(145.9459 15.7447% 46.0784%);
+        --secondary: hsl(0 0% 87.8431%);
+        --secondary-foreground: hsl(157.1429 8.9362% 46.0784%);
+        --muted: hsl(158.8235 12.9771% 25.6863%);
+        --muted-foreground: hsl(153.3333 9.375% 62.3529%);
+        --accent: hsl(164.3478 27.2727% 49.6078%);
+        --accent-foreground: hsl(146.6667 12% 14.7059%);
+        --destructive: hsl(129.6 33.6323% 56.2745%);
+        --destructive-foreground: hsl(160 41.1765% 90%);
+        --border: hsl(160 13.2075% 31.1765%);
+        --input: hsl(160 13.2075% 31.1765%);
+        --ring: hsl(215 15.7895% 55.2941%);
+        --chart-1: hsl(215 15.7895% 55.2941%);
+        --chart-2: hsl(212.4324 19.171% 62.1569%);
+        --chart-3: hsl(224.4444 11.2971% 46.8627%);
+        --chart-4: hsl(164.3478 27.2727% 49.6078%);
+        --chart-5: hsl(223.6364 11.1111% 38.8235%);
+        --sidebar: hsl(162.3529 17.1717% 19.4118%);
+        --sidebar-foreground: hsl(158.4 40.9836% 88.0392%);
+        --sidebar-primary: hsl(215 15.7895% 55.2941%);
+        --sidebar-primary-foreground: hsl(146.6667 12% 14.7059%);
+        --sidebar-accent: hsl(164.3478 27.2727% 49.6078%);
+        --sidebar-accent-foreground: hsl(146.6667 12% 14.7059%);
+        --sidebar-border: hsl(160 13.2075% 31.1765%);
+        --sidebar-ring: hsl(215 15.7895% 55.2941%);
+        --font-sans: Merriweather, serif;
+        --font-serif: Source Serif 4, serif;
+        --font-mono: JetBrains Mono, monospace;
+        --radius: 0.425rem;
+        --shadow-x: 3px;
+        --shadow-y: 3px;
+        --shadow-blur: 2px;
+        --shadow-spread: 0px;
+        --shadow-opacity: 0.15;
+        --shadow-color: #465b6d;
+        --shadow-2xs: 3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.07);
+        --shadow-xs: 3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.07);
+        --shadow-sm:
+            3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.15),
+            3px 1px 2px -1px hsl(207.6923 21.7877% 35.098% / 0.15);
+        --shadow:
+            3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.15),
+            3px 1px 2px -1px hsl(207.6923 21.7877% 35.098% / 0.15);
+        --shadow-md:
+            3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.15),
+            3px 2px 4px -1px hsl(207.6923 21.7877% 35.098% / 0.15);
+        --shadow-lg:
+            3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.15),
+            3px 4px 6px -1px hsl(207.6923 21.7877% 35.098% / 0.15);
+        --shadow-xl:
+            3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.15),
+            3px 8px 10px -1px hsl(207.6923 21.7877% 35.098% / 0.15);
+        --shadow-2xl: 3px 3px 2px 0px hsl(207.6923 21.7877% 35.098% / 0.38);
+    }
+
+    @theme inline {
+        --color-background: var(--background);
+        --color-foreground: var(--foreground);
+        --color-card: var(--card);
+        --color-card-foreground: var(--card-foreground);
+        --color-popover: var(--popover);
+        --color-popover-foreground: var(--popover-foreground);
+        --color-primary: var(--primary);
+        --color-primary-foreground: var(--primary-foreground);
+        --color-secondary: var(--secondary);
+        --color-secondary-foreground: var(--secondary-foreground);
+        --color-muted: var(--muted);
+        --color-muted-foreground: var(--muted-foreground);
+        --color-accent: var(--accent);
+        --color-accent-foreground: var(--accent-foreground);
+        --color-destructive: var(--destructive);
+        --color-destructive-foreground: var(--destructive-foreground);
+        --color-border: var(--border);
+        --color-input: var(--input);
+        --color-ring: var(--ring);
+        --color-chart-1: var(--chart-1);
+        --color-chart-2: var(--chart-2);
+        --color-chart-3: var(--chart-3);
+        --color-chart-4: var(--chart-4);
+        --color-chart-5: var(--chart-5);
+        --color-sidebar: var(--sidebar);
+        --color-sidebar-foreground: var(--sidebar-foreground);
+        --color-sidebar-primary: var(--sidebar-primary);
+        --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+        --color-sidebar-accent: var(--sidebar-accent);
+        --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+        --color-sidebar-border: var(--sidebar-border);
+        --color-sidebar-ring: var(--sidebar-ring);
+
+        --font-sans: var(--font-sans);
+        --font-mono: var(--font-mono);
+        --font-serif: var(--font-serif);
+
+        --radius-sm: calc(var(--radius) - 4px);
+        --radius-md: calc(var(--radius) - 2px);
+        --radius-lg: var(--radius);
+        --radius-xl: calc(var(--radius) + 4px);
+
+        --shadow-2xs: var(--shadow-2xs);
+        --shadow-xs: var(--shadow-xs);
+        --shadow-sm: var(--shadow-sm);
+        --shadow: var(--shadow);
+        --shadow-md: var(--shadow-md);
+        --shadow-lg: var(--shadow-lg);
+        --shadow-xl: var(--shadow-xl);
+        --shadow-2xl: var(--shadow-2xl);
+    }
+}
+
+@layer base {
+    * {
+        border-color: hsl(var(--border));
+    }
+    body {
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
+    }
+}
+
+/* Custom component styles */
+.terminal {
+    background: var(--terminal-bg);
+    color: var(--terminal-fg);
+    border: 1px solid var(--terminal-border);
+    border-radius: var(--radius-lg);
+    font-family:
+        "Ioskeley Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+        "Courier New", monospace;
+    overflow: hidden;
+}
+
+.terminal-header {
+    background: var(--terminal-border);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.terminal-control {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+}
+
+.terminal-control--close {
+    background: var(--terminal-control-close);
+}
+
+.terminal-control--minimize {
+    background: var(--terminal-control-minimize);
+}
+
+.terminal-control--maximize {
+    background: var(--terminal-control-maximize);
+}
+
+.terminal-content {
+    padding: 1rem;
+    min-height: 12rem;
+    max-height: 24rem;
+    overflow-y: auto;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.terminal-line {
+    margin-bottom: 0.5rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.terminal-prompt {
+    color: var(--terminal-prompt);
+    margin-right: 0.5rem;
+}
+
+.terminal-output {
+    color: var(--terminal-output);
+    margin-left: 0.5rem;
+}
+
+.terminal-success {
+    color: var(--terminal-success);
+}
+
+.terminal-cursor {
+    display: inline-block;
+    width: 0.5rem;
+    height: 1.125rem;
+    background: var(--terminal-cursor);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 0.125rem;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(0.5rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.terminal-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsive Terminal */
+@media (max-width: 768px) {
+    .terminal {
+        border-radius: var(--radius-md);
+    }
+
+    .terminal-header {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .terminal-content {
+        padding: 0.75rem;
+        font-size: 0.75rem;
+        min-height: 8rem;
+        max-height: 16rem;
+    }
+
+    .terminal-cursor {
+        width: 0.375rem;
+        height: 1rem;
+    }
+}
+
+/* Font styles */
+body {
+    font-family:
+        "Ioskeley Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+        "Courier New", monospace;
+}

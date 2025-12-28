@@ -1,25 +1,176 @@
 ---
-import '../styles/global.css';
-// Component Imports
-import Button from '../components/Button.astro';
-
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+import Layout from "../layouts/Base.astro";
+import Navigation from "../components/Navigation.astro";
+import HeroSection from "../components/HeroSection.astro";
+import FeaturesSection from "../components/FeaturesSection.astro";
+import "../styles/app.css";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro + TailwindCSS</title>
-	</head>
+<Layout
+    title="CommitFlow - Transform git logs into beautiful analytics"
+    description="Transform git logs into beautiful contribution analytics and AI-powered product changelogs. Perfect for open source maintainers, product teams, and developer communities."
+>
+    <Navigation />
 
-	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<Button>Tailwind Button in Astro!</Button>
-			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
-		</div>
-	</body>
-</html>
+    <main>
+        <HeroSection />
+        <FeaturesSection />
+
+        <!-- Final CTA Section -->
+        <section class="py-32 bg-primary text-primary-foreground">
+            <div class="container max-w-3xl mx-auto px-6 text-center">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
+                    Start transforming<br />your Git data today
+                </h2>
+                <p class="text-xl opacity-90 mb-12 max-w-2xl mx-auto">
+                    One command. Beautiful insights. Zero configuration.
+                </p>
+
+                <div class="flex justify-center mb-16">
+                    <button
+                        id="final-cta"
+                        class="bg-background text-foreground hover:bg-background/90 px-10 py-4 rounded-lg font-medium transition-all transform hover:scale-105 text-lg shadow-2xl"
+                    >
+                        <svg
+                            class="w-5 h-5 mr-2 inline-block"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        Install CommitFlow
+                    </button>
+                </div>
+
+                <div
+                    class="flex justify-center items-center space-x-12 text-sm opacity-75"
+                >
+                    <div>10K+ Downloads</div>
+                    <div>•</div>
+                    <div>MIT License</div>
+                    <div>•</div>
+                    <div>Open Source</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-border bg-background">
+        <div class="container max-w-6xl mx-auto px-6 py-16 text-foreground">
+            <div class="grid md:grid-cols-4 gap-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <svg
+                            class="h-6 w-6"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                        >
+                            <path
+                                d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"
+                            ></path>
+                        </svg>
+                        <span class="font-bold text-xl">CommitFlow</span>
+                    </div>
+                    <p class="text-sm text-muted-foreground max-w-sm">
+                        Transform git logs into beautiful contribution analytics
+                        and AI-powered product changelogs.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-4">Product</h3>
+                    <ul class="space-y-3 text-sm text-muted-foreground">
+                        <li>
+                            <a
+                                href="#features"
+                                class="hover:text-foreground transition-colors"
+                                >Features</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="hover:text-foreground transition-colors"
+                                >Documentation</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="hover:text-foreground transition-colors"
+                                >API Reference</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold mb-4">Community</h3>
+                    <ul class="space-y-3 text-sm text-muted-foreground">
+                        <li>
+                            <a
+                                href="#"
+                                class="hover:text-foreground transition-colors"
+                                >GitHub</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="hover:text-foreground transition-colors"
+                                >npm</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="hover:text-foreground transition-colors"
+                                >Issues</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-border mt-12 pt-8 text-center text-sm text-muted-foreground"
+            >
+                <p>&copy; 2024 CommitFlow. Open source, MIT license.</p>
+            </div>
+        </div>
+    </footer>
+</Layout>
+
+<script>
+    // Final CTA functionality
+    document
+        .getElementById("final-cta")
+        ?.addEventListener("click", async () => {
+            const command = "npm install -g @commitflow/cli";
+            try {
+                await navigator.clipboard.writeText(command);
+                const btn = document.getElementById("final-cta");
+                if (btn) {
+                    const originalContent = btn.innerHTML;
+                    btn.innerHTML = `
+            <svg class="w-5 h-5 mr-2 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Command Copied!
+          `;
+
+                    setTimeout(() => {
+                        btn.innerHTML = originalContent;
+                    }, 3000);
+                }
+            } catch (err) {
+                console.error("Failed to copy:", err);
+            }
+        });
+</script>

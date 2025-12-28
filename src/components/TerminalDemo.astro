@@ -1,0 +1,288 @@
+---
+interface Command {
+    type: "input" | "output" | "delay";
+    content?: string;
+    delay?: number;
+    typing?: boolean;
+    speed?: number;
+}
+
+interface Props {
+    commands: Command[];
+    autoPlay?: boolean;
+    showControls?: boolean;
+    class?: string;
+}
+
+const {
+    commands,
+    autoPlay = true,
+    showControls = true,
+    class: className = "",
+} = Astro.props;
+---
+
+<div class={`terminal ${className}`} role="region" aria-label="Terminal demo">
+    <div class="terminal-header">
+        <div class="terminal-controls">
+            <div
+                class="terminal-control terminal-control--close"
+                aria-hidden="true"
+            >
+            </div>
+            <div
+                class="terminal-control terminal-control--minimize"
+                aria-hidden="true"
+            >
+            </div>
+            <div
+                class="terminal-control terminal-control--maximize"
+                aria-hidden="true"
+            >
+            </div>
+        </div>
+    </div>
+
+    <div class="terminal-content" id="terminal-content">
+        <!-- Terminal content will be dynamically generated here -->
+    </div>
+
+    {
+        showControls && (
+            <div class="terminal-footer border-t border-border p-4 bg-muted/50">
+                <div class="flex items-center justify-between">
+                    <button
+                        id="terminal-restart"
+                        class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-8 px-3"
+                        aria-label="Restart demo"
+                    >
+                        <svg
+                            class="w-4 h-4 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                            />
+                        </svg>
+                        Restart
+                    </button>
+
+                    <button
+                        id="terminal-play-pause"
+                        class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 px-3"
+                        aria-label="Play/Pause"
+                    >
+                        <svg
+                            id="play-icon"
+                            class="w-4 h-4 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                        </svg>
+                        <span id="play-text">Pause</span>
+                    </button>
+
+                    <div class="text-sm text-muted-foreground">
+                        Press{" "}
+                        <kbd class="px-2 py-1 bg-muted border rounded text-xs">
+                            Space
+                        </kbd>{" "}
+                        to play/pause
+                    </div>
+                </div>
+            </div>
+        )
+    }
+</div>
+
+<script define:vars={{ commands }}>
+    class TerminalAnimator {
+        constructor(commands) {
+            this.commands = commands;
+            this.currentLine = 0;
+            this.isPlaying = true;
+            this.content = document.getElementById("terminal-content");
+            this.playPauseBtn = document.getElementById("terminal-play-pause");
+            this.playIcon = document.getElementById("play-icon");
+            this.playText = document.getElementById("play-text");
+            this.restartBtn = document.getElementById("terminal-restart");
+
+            this.setupEventListeners();
+            this.start();
+        }
+
+        setupEventListeners() {
+            this.playPauseBtn?.addEventListener("click", () =>
+                this.togglePlayPause(),
+            );
+            this.restartBtn?.addEventListener("click", () => this.restart());
+
+            // Keyboard controls
+            document.addEventListener("keydown", (e) => {
+                if (e.code === "Space") {
+                    e.preventDefault();
+                    this.togglePlayPause();
+                } else if (e.code === "Escape") {
+                    this.pause();
+                } else if (e.code === "Enter") {
+                    this.restart();
+                }
+            });
+        }
+
+        togglePlayPause() {
+            if (this.isPlaying) {
+                this.pause();
+            } else {
+                this.play();
+            }
+        }
+
+        pause() {
+            this.isPlaying = false;
+            this.updatePlayButton();
+        }
+
+        play() {
+            this.isPlaying = true;
+            this.updatePlayButton();
+            this.processNextCommand();
+        }
+
+        updatePlayButton() {
+            if (this.playText) {
+                this.playText.textContent = this.isPlaying ? "Pause" : "Play";
+            }
+
+            if (this.playIcon) {
+                if (this.isPlaying) {
+                    this.playIcon.innerHTML =
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />';
+                } else {
+                    this.playIcon.innerHTML =
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />';
+                }
+            }
+        }
+
+        restart() {
+            this.currentLine = 0;
+            this.content.innerHTML = "";
+            this.isPlaying = true;
+            this.updatePlayButton();
+            this.start();
+        }
+
+        start() {
+            this.processNextCommand();
+        }
+
+        async processNextCommand() {
+            if (!this.isPlaying || this.currentLine >= this.commands.length) {
+                if (this.currentLine >= this.commands.length) {
+                    this.pause();
+                    // Add completion indicator
+                    this.addLine("✓ Demo completed", "terminal-success");
+                }
+                return;
+            }
+
+            const command = this.commands[this.currentLine];
+
+            switch (command.type) {
+                case "input":
+                    await this.typeCommand(command.content, command.speed);
+                    break;
+                case "output":
+                    this.addLine(command.content, "terminal-output");
+                    break;
+                case "delay":
+                    await this.delay(command.delay || 500);
+                    break;
+            }
+
+            this.currentLine++;
+
+            if (this.isPlaying) {
+                this.processNextCommand();
+            }
+        }
+
+        addLine(content, className = "") {
+            const line = document.createElement("div");
+            line.className = `terminal-line terminal-fade-in ${className}`;
+            line.textContent = content;
+            this.content.appendChild(line);
+            this.content.scrollTop = this.content.scrollHeight;
+        }
+
+        async typeCommand(command, speed = 50) {
+            const line = document.createElement("div");
+            line.className = "terminal-line";
+
+            const prompt = document.createElement("span");
+            prompt.className = "terminal-prompt";
+            prompt.textContent = "$ ";
+
+            const commandText = document.createElement("span");
+            commandText.textContent = "";
+
+            const cursor = document.createElement("span");
+            cursor.className = "terminal-cursor";
+
+            line.appendChild(prompt);
+            line.appendChild(commandText);
+            line.appendChild(cursor);
+            this.content.appendChild(line);
+
+            // Type the command character by character
+            for (let i = 0; i < command.length; i++) {
+                if (!this.isPlaying) {
+                    await this.waitForPlay();
+                }
+
+                commandText.textContent += command[i];
+                this.content.scrollTop = this.content.scrollHeight;
+                await this.delay(speed);
+            }
+
+            // Remove cursor and add a small delay before next command
+            cursor.remove();
+            await this.delay(300);
+        }
+
+        delay(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+
+        waitForPlay() {
+            return new Promise((resolve) => {
+                const checkPlay = () => {
+                    if (this.isPlaying) {
+                        resolve();
+                    } else {
+                        setTimeout(checkPlay, 100);
+                    }
+                };
+                checkPlay();
+            });
+        }
+    }
+
+    // Initialize terminal when DOM is ready
+    document.addEventListener("DOMContentLoaded", () => {
+        new TerminalAnimator(commands);
+    });
+</script>
