@@ -69,27 +69,33 @@ const commitflowCommands = [
                 changelogs
             </p>
 
-            <!-- Primary CTA Button using shadcn/ui -->
-            <div>
-                <Button
-                    id="hero-cta"
-                    size="lg"
-                    class="text-base shadow-2xl hover:scale-105 transition-transform"
-                >
-                    <svg
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+            <!-- Install Command with Copy Button -->
+            <div class="max-w-2xl mx-auto">
+                <div class="relative group">
+                    <pre
+                        class="bg-accent-foreground text-muted border border-border rounded-lg px-6 py-4 text-left font-mono text-sm overflow-x-auto"><code>npm install commitflow</code></pre>
+                    <button
+                        id="copy-command-btn"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-all opacity-90 hover:opacity-100 flex items-center gap-2"
+                        title="Copy to clipboard"
                     >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                    </svg>
-                    Get Started in Seconds
-                </Button>
+                        <svg
+                            id="copy-icon"
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                            ></path>
+                        </svg>
+                        <span id="copy-text">Copy</span>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -98,7 +104,7 @@ const commitflowCommands = [
             <TerminalDemo
                 commands={commitflowCommands}
                 autoPlay={true}
-                showControls={true}
+                showControls={false}
                 class="mx-auto shadow-xl"
             />
         </div>
@@ -106,27 +112,48 @@ const commitflowCommands = [
 </section>
 
 <script>
-    // Primary CTA functionality
-    document.getElementById("hero-cta")?.addEventListener("click", async () => {
-        const command = "npm install -g @commitflow/cli";
+    // Copy command functionality
+    const copyBtn = document.getElementById("copy-command-btn");
+    const copyText = document.getElementById("copy-text");
+    const copyIcon = document.getElementById("copy-icon");
+
+    copyBtn?.addEventListener("click", async () => {
+        const command = "npm install commitflow";
         try {
             await navigator.clipboard.writeText(command);
-            const btn = document.getElementById("hero-cta");
-            if (btn) {
-                const originalContent = btn.innerHTML;
-                btn.innerHTML = `
-          <svg class="w-5 h-5 mr-2 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          Command Copied!
-        `;
 
-                setTimeout(() => {
-                    btn.innerHTML = originalContent;
-                }, 3000);
+            // Update button to show success state
+            if (copyText && copyIcon) {
+                copyText.textContent = "Copied!";
+                copyIcon.innerHTML = `
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                    />
+                `;
             }
+
+            // Reset after 2 seconds
+            setTimeout(() => {
+                if (copyText && copyIcon) {
+                    copyText.textContent = "Copy";
+                    copyIcon.innerHTML = `
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                        />
+                    `;
+                }
+            }, 2000);
         } catch (err) {
             console.error("Failed to copy:", err);
+            if (copyText) {
+                copyText.textContent = "Failed";
+            }
         }
     });
 </script>
